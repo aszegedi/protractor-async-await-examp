@@ -1,7 +1,6 @@
-import { PageUtils } from '../../utils/pageUtils';
 import { $, by, element } from 'protractor';
 
-export class CredentialCreateWizard extends PageUtils {
+export class CredentialCreateWizard {
     public createCredentialApp = $('app-get-started');
     public providerSelector = this.createCredentialApp.$('.cb-credential-create-started-select-provider-switch');
 

@@ -80,10 +80,9 @@ export let config: Config = {
     },
 
     specs: [
-        '../utils/slowdownProtractor.ts',
         '../tests/specLogin.ts',
-        // '../tests/specBase.ts',
-        // '../tests/specCredential.ts',
+        '../tests/specBase.ts',
+        '../tests/specCredential.ts',
         '../tests/specCluster.ts'
     ],
 

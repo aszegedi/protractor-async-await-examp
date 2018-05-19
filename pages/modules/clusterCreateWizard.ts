@@ -1,8 +1,6 @@
 import { $, browser, by, element, protractor } from 'protractor';
-import { PageUtils } from '../../utils/pageUtils';
-import { async } from 'q';
 
-export class ClusterCreateWizard extends PageUtils {
+export class ClusterCreateWizard {
     public templateSwitch = $('app-basic-advanced-toggler i');
     public credentialSelector = $('[placeholder="Please select credential"]');
     public clusterNameField = $('#clusterName');
