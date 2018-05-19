@@ -1,0 +1,21 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": false,
+    "removeComments": false,
+    "noImplicitAny": false,
+    "inlineSources": true,
+    "outDir": "tmp",
+    "typeRoots": [ "./node_modules/@types" ],
+    "types": ["node","jasmine"],
+    "lib":["dom","es2017"]
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
+}

@@ -1,0 +1,10 @@
+.idea
+*.iml
+out
+gen
+jasmine-reports
+yarn-error.*
+node_modules
+tmp
+Vagrantfile
+.vagrant

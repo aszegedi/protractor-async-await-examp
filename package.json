@@ -1,0 +1,36 @@
+{
+  "name": "cloud-integration-protractor",
+  "version": "1.0.0",
+  "description": "Cloudbreak web functional integration test project",
+  "repository": "https://github.com/hortonworks/hortonworks-cloud.git",
+  "license": "Apache-2.0",
+  "keywords": [
+    "protractor",
+    "typescript",
+    "testing",
+    "automation testing"
+  ],
+  "config": {
+    "unsafe-perm": true
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/protractor/bin/webdriver-manager update --allow-root install",
+    "protractor-test": "protractor tmp/protractor.conf.js",
+    "build": "tsc",
+    "test": "yarn run build && yarn run protractor-test"
+  },
+  "dependencies": {
+    "protractor": "^5.3.2",
+    "protractor-console": "^3.0.0",
+    "typescript": "^2.8.3",
+    "jasmine": "^3.1.0",
+    "jasmine-reporters": "^2.3.1",
+    "jasmine-spec-reporter": "^4.2.1",
+    "protractor-jasmine2-html-reporter": "^0.0.7"
+  },
+  "devDependencies": {
+    "@types/jasminewd2": "^2.0.3",
+    "@types/jasmine": "^2.8.7",
+    "ts-node": "^6.0.3"
+  }
+}
