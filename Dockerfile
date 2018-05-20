@@ -1,7 +1,7 @@
 FROM alpine:edge
 
 RUN apk --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ add \
- nodejs nodejs-npm chromium firefox xwininfo xvfb dbus eudev ttf-freefont fluxbox gawk yarn sudo tzdata openjdk8-jre curl wget tar
+ nodejs nodejs-npm chromium nss chromium-chromedriver firefox xwininfo xvfb dbus eudev ttf-freefont fluxbox gawk yarn sudo tzdata openjdk8-jre curl wget tar
 
 ENV TZ=Europe/Berlin
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && \
@@ -28,5 +28,7 @@ RUN adduser -D protractor && \
 
 WORKDIR /protractor/
 ENV HOME=/protractor/project
+ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV CHROME_DRIVER_BIN=/usr/bin/chromedriver
 
 ENTRYPOINT ["/scripts/protractor-docker.sh"]

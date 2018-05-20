@@ -12,3 +12,5 @@ export const AMBARI_USER = process.env.AMBARI_USER || 'admin';
 export const AMBARI_PASSWORD = process.env.AMBARI_PASSWORD || 'admin123!@#';
 export const SSH_KEY_NAME = process.env.SSH_KEY_NAME || 'demotest';
 export const SSH_KEY = process.env.SSH_KEY || 'ssh-rsa AAAAB3';
+export const CHROME_BIN = process.env.CHROME_BIN || '/usr/bin/google-chrome';
+export const CHROME_DRIVER_BIN = process.env.CHROME_DRIVER_BIN || '../chromedriver';

@@ -14,7 +14,9 @@
     "unsafe-perm": true
   },
   "scripts": {
-    "postinstall": "node ./node_modules/protractor/bin/webdriver-manager update --allow-root install",
+    "update-webdriver": "node ./node_modules/protractor/bin/webdriver-manager update --allow-root install",
+    "create-chromedriver": "find ./node_modules/webdriver-manager/selenium/ -name 'chromedriver_*.*[0-9]' -exec cp -pv '{}' 'chromedriver' ';'",
+    "postinstall": "yarn run update-webdriver && yarn run create-chromedriver",
     "protractor-test": "protractor tmp/protractor.conf.js",
     "build": "tsc",
     "test": "yarn run build && yarn run protractor-test"

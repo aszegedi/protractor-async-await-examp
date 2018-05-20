@@ -1,5 +1,5 @@
 import { $, browser, by, Config, element, protractor } from 'protractor';
-import { BASE_URL, PASSWORD_GUI, USERNAME_GUI } from './environment/environment';
+import { BASE_URL, CHROME_BIN, CHROME_DRIVER_BIN, PASSWORD_GUI, USERNAME_GUI } from './environment/environment';
 import { async } from 'q';
 
 export let config: Config = {
@@ -33,6 +33,8 @@ export let config: Config = {
      */
     useAllAngular2AppRoots: true,
 
+    chromeDriver: CHROME_DRIVER_BIN,
+
     capabilities: {
         /**
          * https://github.com/angular/protractor/blob/master/docs/browser-support.md
@@ -54,6 +56,7 @@ export let config: Config = {
          * '--disable-gpu'
          */
         chromeOptions: {
+            binary: CHROME_BIN,
             args: ['--test-type', '--no-sandbox', '--disable-web-security', '--start-maximized']
         },
         idleTimeout: 120,

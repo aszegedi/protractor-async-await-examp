@@ -16,5 +16,5 @@ sleep 20
 sudo -E -u protractor "$@"
 export RESULT=$?
 
-rm -rf .config .local .pki .dbus .gconf .mozilla .yarn .fluxbox
+rm -rf .config .local .pki .dbus .gconf .mozilla .yarn .fluxbox .cache chromedriver
 exit $RESULT
