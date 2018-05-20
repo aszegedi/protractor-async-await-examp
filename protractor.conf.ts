@@ -1,6 +1,12 @@
-import { $, browser, by, Config, element, protractor } from 'protractor';
+/**
+ * Optimized for Linux environment!
+ *
+ * If your CHROME_BIN and/or CHROME_DRIVER_BIN is not on the defined path, you cannot run your tests with this. Please check these variables,
+ * and adjust if it is needed for you.
+ */
+
+import { browser, Config, protractor } from 'protractor';
 import { BASE_URL, CHROME_BIN, CHROME_DRIVER_BIN, PASSWORD_GUI, USERNAME_GUI } from './environment/environment';
-import { async } from 'q';
 
 export let config: Config = {
     plugins: [
