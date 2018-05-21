@@ -15,6 +15,8 @@ check the [SeleniumHQ's github issue](https://github.com/SeleniumHQ/selenium/iss
 > **Note:** 
 > To write and run native async/await test, the node.js version should be greater than or equal to 8.0, and Jasmine version should be greater than or equal to 2.7" by [Protractor](https://www.protractortest.org/#/async-await)
 
+I created a [new TestCafe project](https://github.com/aszegedi/testcafe-examp) as well to comparison. [TestCafe](http://devexpress.github.io/testcafe/) natively applies [Async/Await](http://devexpress.github.io/testcafe/documentation/test-api/waiting-for-page-elements-to-appear.html) syntax (learn more at [JavaScript Info](https://javascript.info/async-await)). So you can easily compare the TestCafe and the Protractor way for the same application and goal.
+
 ## Main Goal
 Create a demo project with Protractor to cover a cluster creation workflow with Cloudbreak GUI.
 
