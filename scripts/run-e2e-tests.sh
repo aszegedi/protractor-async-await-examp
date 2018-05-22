@@ -2,7 +2,7 @@
 set -x
 
 : ${BASE_URL:? required}
-: ${ENVFILE:=./testenvironment}
+: ${ENVFILE:=./utils/testenvironment}
 
 export TESTCONF=/protractor/project/tmp/protractor.conf.js
 
