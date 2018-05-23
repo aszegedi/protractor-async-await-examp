@@ -207,6 +207,23 @@ export let config: Config = {
                 fixedScreenshotName: true
             })
         );
+
+        // It generates the Jasmine Allure Reports https://www.npmjs.com/package/jasmine-allure-reporter
+        // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/15836
+        const AllureReporter = require('jasmine-allure-reporter');
+        jasmine.getEnv().addReporter(new AllureReporter({
+            allureReport: {
+                resultsDir: 'allure-results'
+            }
+        }));
+        jasmine.getEnv().afterEach(done => {
+            browser.takeScreenshot().then(function(png) {
+                allure.createAttachment('Screenshot', function () {
+                    return new Buffer(png, 'base64')
+                }, 'image/png')();
+                done();
+            })
+        });
     },
 
     /**

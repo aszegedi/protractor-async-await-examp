@@ -4,6 +4,8 @@ out
 gen
 jasmine-reports
 yarn-error.*
+allure-report
+allure-results
 node_modules
 tmp
 Vagrantfile
