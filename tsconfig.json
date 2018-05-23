@@ -14,8 +14,7 @@
     "types": ["node","jasmine"],
     "lib":["dom","es2017"]
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
+  "include": [
+    "protractor.conf.ts"
   ]
 }

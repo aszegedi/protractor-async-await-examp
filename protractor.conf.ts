@@ -8,6 +8,9 @@
 import { browser, Config, protractor } from 'protractor';
 import { BASE_URL, CHROME_BIN, CHROME_DRIVER_BIN, PASSWORD_GUI, USERNAME_GUI } from './environment/environment';
 
+// https://github.com/allure-framework/allure-jasmine/issues/21
+declare const allure: any;
+
 export let config: Config = {
     plugins: [
         {
