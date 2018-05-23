@@ -1,4 +1,5 @@
 import { $, browser, by, element, protractor } from 'protractor';
+import { async } from 'q';
 
 export class ClusterCreateWizard {
     public templateSwitch = $('app-basic-advanced-toggler i');
@@ -27,6 +28,16 @@ export class ClusterCreateWizard {
         return await element(by.cssContainingText('mat-option', name)).click();
     }
 
+    async setNewSSHKey(sshKey: string) {
+        const createNewSSHKeyTab = $("app-security mat-radio-button[id='cb-cluster-create-new-ssh-key']");
+        const sshTextarea = $("textarea[formcontrolname='publicKey']");
+
+        await createNewSSHKeyTab.click();
+        await sshTextarea.clear().then(() => {
+            return sshTextarea.sendKeys(sshKey);
+        });
+    }
+
     async generalConfiguration(credentialName: string, clusterName: string) {
         await this.selectCredential(credentialName);
         await this.clusterNameField.sendKeys(clusterName);
@@ -42,6 +53,31 @@ export class ClusterCreateWizard {
         await this.nextButton.click();
     }
 
+    async disableGatewayTopology() {
+        const gatewaySlider = $('app-gateway-configuration mat-slide-toggle');
+
+        await gatewaySlider.getAttribute('class').then(elementClass => {
+            if (elementClass.includes('mat-checked')) {
+                return gatewaySlider.click();
+            } else {
+                return console.log('Gateway Topology is already disabled.');
+            }
+        });
+    }
+
+    async security(user: string, password: string, ssh: string, isSSHName = true) {
+        await this.userField.clear().then(() => {
+            return this.userField.sendKeys(user);
+        });
+        await this.passwordField.clear().then(() => {
+            return this.passwordField.sendKeys(password);
+        });
+        await this.confirmPasswordField.clear().then(() => {
+            return this.confirmPasswordField.sendKeys(password);
+        });
+        isSSHName ? await this.selectSSHKey(ssh) : await this.setNewSSHKey(ssh);
+    }
+
     async createOpenStackCluster(credentialName: string, clusterName: string, user: string, password: string, sshKeyName: string, network?: string, subnet?: string, securityGroupMaster?: string, securityGroupWorker?: string, securityGroupCompute?: string) {
         await this.setAdvancedTemplate();
         await this.generalConfiguration(credentialName, clusterName);
@@ -49,12 +85,10 @@ export class ClusterCreateWizard {
         await this.clickNextOnPage('app-hardware-and-storage');
         await this.clickNextOnPage('app-config-cluster-extensions');
         await this.clickNextOnPage('app-config-external-sources');
+        await this.disableGatewayTopology();
         await this.clickNextOnPage('app-gateway-configuration');
         await this.clickNextOnPage('app-network');
-        await this.userField.sendKeys(user);
-        await this.passwordField.sendKeys(password);
-        await this.confirmPasswordField.sendKeys(password);
-        await this.selectSSHKey(sshKeyName);
+        await this.security(user, password, sshKeyName);
 
         return await this.createButton.click();
     }
