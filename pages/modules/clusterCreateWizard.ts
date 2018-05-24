@@ -41,6 +41,9 @@ export class ClusterCreateWizard {
     async generalConfiguration(credentialName: string, clusterName: string) {
         await this.selectCredential(credentialName);
         await this.clusterNameField.sendKeys(clusterName);
+    }
+
+    async selectBaseImage() {
         await this.baseImageTab.click();
     }
 
@@ -82,6 +85,8 @@ export class ClusterCreateWizard {
         await this.setAdvancedTemplate();
         await this.generalConfiguration(credentialName, clusterName);
         await this.clickNextOnPage('app-general-configuration');
+        await this.selectBaseImage();
+        await this.clickNextOnPage('app-image-catalog');
         await this.clickNextOnPage('app-hardware-and-storage');
         await this.clickNextOnPage('app-config-cluster-extensions');
         await this.clickNextOnPage('app-config-external-sources');
