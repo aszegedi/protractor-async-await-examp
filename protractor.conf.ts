@@ -88,7 +88,7 @@ export let config: Config = {
         showColors: true,
         includeStackTrace: true,
         isVerbose: true,
-        defaultTimeoutInterval: 60000
+        defaultTimeoutInterval: 120000
     },
 
     specs: [
@@ -125,16 +125,10 @@ export let config: Config = {
          */
         browser.manage().deleteAllCookies();
         // https://github.com/angular/protractor/issues/1467
-        browser.manage().window().maximize();
+        //browser.manage().window().maximize();
         //browser.manage().window().setSize(1280, 1024);
-        browser
-            .manage()
-            .timeouts()
-            .implicitlyWait(10000);
-        browser
-            .manage()
-            .timeouts()
-            .pageLoadTimeout(20000);
+        browser.manage().timeouts().implicitlyWait(20000);
+        browser.manage().timeouts().pageLoadTimeout(60000);
 
         /**
          * https://github.com/angular/protractor/issues/3009

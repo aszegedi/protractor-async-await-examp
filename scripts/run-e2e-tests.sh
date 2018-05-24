@@ -45,4 +45,7 @@ else
     aszegedi/protractor yarn test
     RESULT=$?
 fi
+
+sudo chown -R jenkins .
+
 exit $RESULT
