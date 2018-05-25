@@ -19,7 +19,7 @@
     "postinstall": "yarn run update-webdriver && yarn run create-chromedriver",
     "protractor-test": "protractor tmp/protractor.conf.js",
     "build": "tsc",
-    "clean": "rimraf tmp/ reports/ allure-report/ allure-results jasmine-reports",
+    "clean": "rimraf tmp/ reports/ allure-report/ allure-results/ jasmine-reports/ chromedriver",
     "pretest": "rimraf tmp/ reports/ allure-report/ allure-results jasmine-reports",
     "test": "yarn run build && yarn run protractor-test",
     "posttest": "allure generate allure-results --clean -o allure-report || true"

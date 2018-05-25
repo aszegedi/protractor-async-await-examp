@@ -43,15 +43,21 @@ describe('Cloudbreak Cluster examples', () => {
 
         it('should be started successfully', async () => {
             expect(await clusterPage.waitForWidgetStatus(clusterName, 'in progress', true)).toBeTruthy();
-            expect(await clusterPage.waitForWidgetStatus(clusterName, 'Running')).toBeTruthy();
         }, 1800000 );
+
+        it('should be in "Running" state', async () => {
+            expect(await clusterPage.waitForWidgetStatus(clusterName, 'Running')).toBeTruthy();
+        });
 
         it('should be terminated successfully', async () => {
             await clusterPage.openClusterDetails(clusterName);
             await details.forceTerminateCluster();
 
             expect(await clusterPage.waitForWidgetStatus(clusterName, 'Terminating')).toBeTruthy();
-            expect(await clusterPage.getWidget(clusterName)).toBeFalsy();
+        });
+
+        it('should be removed successfully', async () => {
+            expect(await clusterPage.getWidget(clusterName, true)).toBeTruthy();
         }, 1800000 );
     });
 });

@@ -21,8 +21,8 @@ export class BasePage {
         return this.menu.$(menuItemClass);
     }
 
-    openPage(name: string) {
-        return browser.get(BASE_URL + '/' + name.toLowerCase());
+    async openPage(name: string) {
+        await browser.get(BASE_URL + '/' + name.toLowerCase());
     }
 
     async logOut() {

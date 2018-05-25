@@ -1,18 +1,25 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
+    "importHelpers": true,
     "declaration": false,
     "removeComments": false,
     "noImplicitAny": false,
     "inlineSources": true,
+    "skipLibCheck": true,
     "outDir": "tmp",
-    "typeRoots": [ "./node_modules/@types" ],
-    "types": ["node","jasmine"],
-    "lib":["dom","es2017"]
+    "typeRoots": [
+      "types",
+      "./node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "jasmine"
+    ]
   },
   "include": [
     "protractor.conf.ts"

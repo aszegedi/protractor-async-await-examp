@@ -24,8 +24,12 @@ export class ClusterCreateWizard {
     }
 
     async selectSSHKey(name: string) {
+        const EC = protractor.ExpectedConditions;
+        const desiredSSHKeyName = element(by.cssContainingText('.mat-option', name));
+
         await this.sshSelector.click();
-        return await element(by.cssContainingText('.mat-option-text', name)).click();
+        await browser.wait(EC.elementToBeClickable(desiredSSHKeyName), 5000, name + ' SSH Key is not present in the DOM');
+        return await desiredSSHKeyName.click();
     }
 
     async setNewSSHKey(sshKey: string) {
