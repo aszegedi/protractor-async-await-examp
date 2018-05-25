@@ -25,7 +25,7 @@ export class ClusterCreateWizard {
 
     async selectSSHKey(name: string) {
         await this.sshSelector.click();
-        return await element(by.cssContainingText('mat-option', name)).click();
+        return await element(by.cssContainingText('.mat-option-text', name)).click();
     }
 
     async setNewSSHKey(sshKey: string) {
@@ -44,6 +44,9 @@ export class ClusterCreateWizard {
     }
 
     async selectBaseImage() {
+        const EC = protractor.ExpectedConditions;
+
+        await browser.wait(EC.elementToBeClickable(this.baseImageTab), 5000, 'Base image tab is not present in the DOM');
         await this.baseImageTab.click();
     }
 
