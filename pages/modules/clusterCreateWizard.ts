@@ -5,7 +5,8 @@ export class ClusterCreateWizard {
     public templateSwitch = $('app-basic-advanced-toggler i');
     public credentialSelector = $('[placeholder="Please select credential"]');
     public clusterNameField = $('#clusterName');
-    public baseImageTab = $('mat-radio-button[value="base"]');
+    public imageTypeSelect = $('[data-qa="imagetype-select"]');
+    public baseImageOption = $('[data-qa="image-base"]');
     public userField = $('input[formcontrolname="username"]');
     public passwordField = $('input[formcontrolname="password"]');
     public confirmPasswordField = $('input[formcontrolname="passwordConfirmation"]');
@@ -50,16 +51,18 @@ export class ClusterCreateWizard {
     async selectBaseImage() {
         const EC = protractor.ExpectedConditions;
 
-        await browser.wait(EC.elementToBeClickable(this.baseImageTab), 5000, 'Base image tab is not present in the DOM');
-        await this.baseImageTab.click();
+        await browser.wait(EC.elementToBeClickable(this.imageTypeSelect), 10000, 'Base image selector is not present in the DOM');
+        await this.imageTypeSelect.click();
+        await browser.wait(EC.elementToBeClickable(this.baseImageOption), 10000, 'Base image option is not present in the DOM');
+        await this.baseImageOption.click();
     }
 
     async clickNextOnPage(pageAppName: string) {
         const EC = protractor.ExpectedConditions;
         let app = $(pageAppName);
 
-        await browser.wait(EC.presenceOf(app), 5000, pageAppName + ' does not present in the DOM');
-        await browser.wait(EC.elementToBeClickable(this.nextButton), 5000, 'Next button is not present in the DOM');
+        await browser.wait(EC.presenceOf(app), 10000, pageAppName + ' does not present in the DOM');
+        await browser.wait(EC.elementToBeClickable(this.nextButton), 10000, 'Next button is not present in the DOM');
         await this.nextButton.click();
     }
 
