@@ -2,13 +2,13 @@ import { BasePage } from "./basePage";
 import { $, browser, protractor } from 'protractor';
 
 export class CredentialPage extends BasePage {
-    public createButton = $('#btnCreateCredential');
-    public refreshButton = $('[data-qa="credential-count"] i');
+    public static createButton = $('[data-qa="credentials-create"]');
+    public static refreshButton = $('[data-qa="credential-count"] i');
 
-    async deleteCredential(name: string) {
-        const selectCredentialCheckbox = $('[data-qa="' + name + '"] mat-checkbox');
+    static async deleteCredential(name: string) {
+        const selectCredentialCheckbox = $(`[data-qa='${name}'] mat-checkbox`);
         const deleteIcon = $('[data-qa="delete"]');
-        const confirmationYes = $('.btn.btn-primary.pull-right.text-uppercase');
+        const confirmationYes = $('[data-qa="confirmation-yes"]');
 
         await selectCredentialCheckbox.click();
         await deleteIcon.click();
@@ -16,16 +16,16 @@ export class CredentialPage extends BasePage {
         await this.refreshButton.click();
     }
 
-    async isCredentialDisplayed(name: string) {
+    static async isCredentialDisplayed(name: string) {
         const EC = protractor.ExpectedConditions;
         await this.refreshButton.click();
 
-        return await browser.wait(EC.presenceOf($('[data-qa="' + name + '"]')), 5000);
+        return await browser.wait(EC.presenceOf($(`[data-qa='${name}']`)), 5000);
     }
 
-    async isCredentialDeleted(name: string) {
+    static async isCredentialDeleted(name: string) {
         const EC = protractor.ExpectedConditions;
 
-        return await browser.wait(EC.stalenessOf($('[data-qa="' + name + '"]')), 5000);
+        return await browser.wait(EC.stalenessOf($(`[data-qa='${name}']`)), 5000);
     }
 }

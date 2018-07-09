@@ -95,7 +95,7 @@ export let config: Config = {
         '../tests/specLogin.ts',
         '../tests/specBase.ts',
         '../tests/specCredential.ts',
-        '../tests/specCluster.ts'
+        //'../tests/specCluster.ts'
     ],
 
     /**
@@ -117,7 +117,7 @@ export let config: Config = {
         browser.getCapabilities().then((browserCapabilities: any) => {
             console.log('Browser name is: ' + browserCapabilities.get('browserName'));
             console.log('Browser version is: ' + browserCapabilities.get('version'));
-            console.log('Browser version is: ' + browserCapabilities.get('platform'));
+            console.log('Browser OS is: ' + browserCapabilities.get('platform'));
         });
 
         /**
@@ -126,7 +126,7 @@ export let config: Config = {
         browser.manage().deleteAllCookies();
         // https://github.com/angular/protractor/issues/1467
         //browser.manage().window().maximize();
-        //browser.manage().window().setSize(1280, 1024);
+        browser.manage().window().setSize(1280, 1024);
         browser.manage().timeouts().implicitlyWait(20000);
         browser.manage().timeouts().pageLoadTimeout(60000);
 

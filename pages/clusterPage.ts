@@ -2,9 +2,9 @@ import { BasePage } from "./basePage";
 import { $, browser, by, protractor } from 'protractor';
 
 export class ClusterPage extends BasePage {
-    public createButton = $('#btnCreateCluster');
+    public static createButton = $('#btnCreateCluster');
 
-    async waitForWidgetStatus(clusterName: string, state: string, staleness = false) {
+    static async waitForWidgetStatus(clusterName: string, state: string, staleness = false) {
         const EC = protractor.ExpectedConditions;
         const desiredStatus = $('a[data-stack-name="' + clusterName + '"]').element(by.cssContainingText('[data-qa="stack-status"]', state));
 
@@ -15,7 +15,7 @@ export class ClusterPage extends BasePage {
         }
     }
 
-    async getWidget(clusterName: string, staleness = false) {
+    static async getWidget(clusterName: string, staleness = false) {
         const EC = protractor.ExpectedConditions;
         const clusterWidget = $('a[data-stack-name="' + clusterName + '"]');
 
@@ -26,7 +26,7 @@ export class ClusterPage extends BasePage {
         }
     }
 
-    async openClusterDetails(clusterName: string) {
+    static async openClusterDetails(clusterName: string) {
         const widgetLink = $('a[data-stack-name="' + clusterName + '"]');
 
         await widgetLink.click();

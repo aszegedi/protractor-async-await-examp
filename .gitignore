@@ -10,3 +10,4 @@ node_modules
 tmp
 Vagrantfile
 .vagrant
+chromedriver

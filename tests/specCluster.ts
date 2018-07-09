@@ -5,11 +5,6 @@ import { ClusterCreateWizard } from '../pages/modules/clusterCreateWizard';
 import { ClusterDetails } from '../pages/modules/clusterDetails';
 import { browser } from 'protractor';
 
-const basePage = new BasePage();
-const clusterPage = new ClusterPage();
-const wizard = new ClusterCreateWizard();
-const details = new ClusterDetails();
-
 const credentialName = 'autotesting-clusters-os';
 const clusterName = 'protractor-os-cluster';
 const user = AMBARI_USER;
@@ -34,30 +29,30 @@ describe('Cloudbreak Cluster examples', () => {
         });
 
         it('should be done successfully', async () => {
-            await basePage.openPage('clusters/ref/create');
+            await BasePage.openPage('clusters/ref/create');
 
-            await wizard.createOpenStackCluster(credentialName, clusterName, user, password, sshKeyName);
+            await ClusterCreateWizard.createOpenStackCluster(credentialName, clusterName, user, password, sshKeyName);
 
-            expect(await clusterPage.getWidget(clusterName)).toBeTruthy();
+            expect(await ClusterPage.getWidget(clusterName)).toBeTruthy();
         });
 
         it('should be started successfully', async () => {
-            expect(await clusterPage.waitForWidgetStatus(clusterName, 'in progress', true)).toBeTruthy();
+            expect(await ClusterPage.waitForWidgetStatus(clusterName, 'in progress', true)).toBeTruthy();
         }, 1800000 );
 
         it('should be in "Running" state', async () => {
-            expect(await clusterPage.waitForWidgetStatus(clusterName, 'Running')).toBeTruthy();
+            expect(await ClusterPage.waitForWidgetStatus(clusterName, 'Running')).toBeTruthy();
         });
 
         it('should be terminated successfully', async () => {
-            await clusterPage.openClusterDetails(clusterName);
-            await details.forceTerminateCluster();
+            await ClusterPage.openClusterDetails(clusterName);
+            await ClusterDetails.forceTerminateCluster();
 
-            expect(await clusterPage.waitForWidgetStatus(clusterName, 'Terminating')).toBeTruthy();
+            expect(await ClusterPage.waitForWidgetStatus(clusterName, 'Terminating')).toBeTruthy();
         });
 
         it('should be removed successfully', async () => {
-            expect(await clusterPage.getWidget(clusterName, true)).toBeTruthy();
+            expect(await ClusterPage.getWidget(clusterName, true)).toBeTruthy();
         }, 1800000 );
     });
 });
