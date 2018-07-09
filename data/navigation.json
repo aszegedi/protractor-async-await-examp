@@ -1,0 +1,106 @@
+[
+    {
+      "name": "Clusters",
+      "class": "menu-clusters",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Credentials",
+      "class": "menu-credentials",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Blueprints",
+      "class": "menu-blueprints",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Cluster Extensions",
+      "class": "menu-cluster-extensions",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Recipes",
+      "class": "menu-cluster-extensions",
+      "subclass": "submenu-recipes",
+      "submenu": true
+    },
+    {
+      "name": "Management Packs",
+      "class": "menu-cluster-extensions",
+      "subclass": "submenu-mpacks",
+      "submenu": true
+    },
+    {
+      "name": "External Sources",
+      "class": "menu-external-sources",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Authentication Configuration",
+      "class": "menu-external-sources",
+      "subclass": "submenu-authentication-config",
+      "submenu": true
+    },
+    {
+      "name": "Database Configuration",
+      "class": "menu-external-sources",
+      "subclass": "submenu-database-config",
+      "submenu": true
+    },
+    {
+      "name": "Image Catalogs",
+      "class": "menu-external-sources",
+      "subclass": "submenu-imagecatalogs",
+      "submenu": true
+    },
+    {
+      "name": "Proxy Configurations",
+      "class": "menu-external-sources",
+      "subclass": "submenu-proxy-config",
+      "submenu": true
+    },
+    {
+      "name": "History",
+      "class": "menu-history",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Settings",
+      "class": "menu-settings",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Download CLI",
+      "class": "menu-downloadcli",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Documentation",
+      "class": "menu-documentation",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Get Help",
+      "class": "menu-gethelp",
+      "subclass": "",
+      "submenu": false
+    },
+    {
+      "name": "Logout",
+      "class": "menu-logout",
+      "subclass": "",
+      "submenu": false
+    }
+]
+
+
