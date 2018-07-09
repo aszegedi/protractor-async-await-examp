@@ -1,9 +1,9 @@
 import { AMBARI_PASSWORD, AMBARI_USER, SSH_KEY_NAME } from '../environment/environment';
-import { BasePage } from '../pages/basePage';
 import { ClusterPage } from '../pages/clusterPage';
 import { ClusterCreateWizard } from '../pages/modules/clusterCreateWizard';
 import { ClusterDetails } from '../pages/modules/clusterDetails';
 import { browser } from 'protractor';
+import { PageHelpers } from '../helpers/pageHelpers';
 
 const credentialName = 'autotesting-clusters-os';
 const clusterName = 'protractor-os-cluster';
@@ -29,7 +29,7 @@ describe('Cloudbreak Cluster examples', () => {
         });
 
         it('should be done successfully', async () => {
-            await BasePage.openPage('clusters/ref/create');
+            await PageHelpers.openPage('clusters/ref/create');
 
             await ClusterCreateWizard.createOpenStackCluster(credentialName, clusterName, user, password, sshKeyName);
 

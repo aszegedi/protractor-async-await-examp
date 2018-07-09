@@ -1,5 +1,4 @@
 import { $ } from "protractor";
-import { PASSWORD_GUI, USERNAME_GUI } from '../environment/environment';
 
 export class LoginPage {
     public static userNameInput = $('[data-qa="login-username"]');

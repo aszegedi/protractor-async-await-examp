@@ -1,12 +1,13 @@
 import { BasePage } from '../pages/basePage';
 import { LoginPage } from '../pages/loginPage';
 import { PASSWORD_GUI, USERNAME_GUI } from '../environment/environment';
+import { PageHelpers } from '../helpers/pageHelpers';
 
 describe('Cloudbreak Base examples', () => {
-    const actualURL = BasePage.getPageUrl();
+    const actualURL = PageHelpers.getPageUrl();
 
     beforeAll(async () => {
-       await BasePage.closeConfirmation();
+       await PageHelpers.closeConfirmation();
     });
 
     afterAll(async () => {

@@ -1,4 +1,5 @@
 import { $, browser, by, element, protractor } from 'protractor';
+import { OSCredentialCreateParams } from '../../types/osCredentialCreateParams.type';
 
 export class CredentialCreateWizard {
     public static providerSelector = $('[data-qa="createcredential-select-provider"]');
@@ -18,7 +19,7 @@ export class CredentialCreateWizard {
         if (await browser.wait(EC.elementToBeClickable(closeIcon), 5000,'Credential Documentation slide is not visible')) await closeIcon.click();
     }
 
-    static async createOpenStackCredential(keystoneVersion: string, name: string, user: string, password: string, tenantName: string, endpoint: string, apiFacing: string) {
+    static async createOpenStackCredential(credentialCreateParams: OSCredentialCreateParams) {
         const keystoneSelector = $('[data-qa="createcredential-keystone"]');
         const nameField = $('[data-qa="createcredential-name"]');
         const userField = $('[data-qa="createcredential-user"]');
@@ -31,15 +32,15 @@ export class CredentialCreateWizard {
         await this.closeDocumentationSlide();
 
         await keystoneSelector.click().then(() => {
-            return element(by.cssContainingText('mat-option', keystoneVersion)).click();
+            return element(by.cssContainingText('mat-option', credentialCreateParams.keystoneVersion)).click();
         });
-        await nameField.sendKeys(name);
-        await userField.sendKeys(user);
-        await passwordField.sendKeys(password);
-        await tenantField.sendKeys(tenantName);
-        await endpointField.sendKeys(endpoint);
+        await nameField.sendKeys(credentialCreateParams.name);
+        await userField.sendKeys(credentialCreateParams.user);
+        await passwordField.sendKeys(credentialCreateParams.password);
+        await tenantField.sendKeys(credentialCreateParams.tenantName);
+        await endpointField.sendKeys(credentialCreateParams.endpoint);
         await apiSelector.click().then(() => {
-            return element(by.cssContainingText('mat-option[class*="mat-option ng-star-inserted"]', apiFacing)).click();
+            return element(by.cssContainingText('mat-option[class*="mat-option ng-star-inserted"]', credentialCreateParams.apiFacing)).click();
         });
         return await createButton.click();
     }
