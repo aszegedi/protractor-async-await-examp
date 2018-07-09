@@ -16,13 +16,13 @@
   "scripts": {
     "update-webdriver": "node ./node_modules/protractor/bin/webdriver-manager update --allow-root install",
     "create-chromedriver": "find ./node_modules/webdriver-manager/selenium/ -name 'chromedriver_*.*[0-9]' -exec cp -pv '{}' 'chromedriver' ';'",
-    "postinstall": "yarn run update-webdriver && yarn run create-chromedriver",
-    "protractor-test": "protractor tmp/protractor.conf.js",
-    "build": "tsc",
-    "clean": "rimraf tmp/ reports/ allure-report/ allure-results/ jasmine-reports/ chromedriver",
-    "pretest": "rimraf tmp/ reports/ allure-report/ allure-results jasmine-reports",
-    "test": "yarn run build && yarn run protractor-test",
-    "posttest": "allure generate allure-results --clean -o allure-report || true"
+    "postinstall": "node_modules/.bin/run-s update-webdriver create-chromedriver",
+    "protractor-test": "node_modules/.bin/protractor tmp/protractor.conf.js",
+    "build": "node_modules/.bin/tsc --pretty",
+    "clean": "node_modules/.bin/rimraf tmp/ allure-report/ allure-results/ jasmine-reports/ chromedriver",
+    "pretest": "node_modules/.bin/rimraf tmp/ reports/ allure-report/ allure-results/ jasmine-reports/",
+    "test": "node_modules/.bin/run-s build protractor-test --continue-on-error",
+    "posttest": "node_modules/.bin/allure generate allure-results --clean -o allure-report || true"
   },
   "dependencies": {
     "protractor": "^5.3.2",
@@ -39,6 +39,7 @@
     "@types/jasmine": "^2.8.7",
     "ts-node": "^6.0.3",
     "allure-commandline": "^2.5.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "npm-run-all": "^4.1.3"
   }
 }
