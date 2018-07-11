@@ -13,9 +13,9 @@ export class LoginPage {
     }
 
     static async getError() {
-        return await this.errorMessage.getText().then(text => {
-            console.log(`Login Error: ${text}`);
-            return text;
-        });
+        const errorMessage = await this.errorMessage.getText();
+
+        console.log(`Login error message is [ ${errorMessage} ]`);
+        return await errorMessage;
     }
 }

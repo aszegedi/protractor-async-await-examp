@@ -1,22 +1,27 @@
-import { $, browser, by, element, protractor } from 'protractor';
+import { $, $$, browser, by, element, protractor } from 'protractor';
 import { OSCredentialCreateParams } from '../../types/osCredentialCreateParams.type';
+import { PageHelpers } from '../../helpers/pageHelpers';
 
 export class CredentialCreateWizard {
     public static providerSelector = $('[data-qa="createcredential-select-provider"]');
 
-    static async selectProvider(providerName: string) {
-        const providerButton =  $(`[data-qa='provider-${providerName}']`);
+    static async selectProvider(name: string) {
+        const providerButton = await $(`[data-qa='provider-${name.toLowerCase()}']`);
 
-        await this.providerSelector.click().then(() => {
-            return providerButton.click();
-        });
+        await this.providerSelector.click();
+        await providerButton.click();
+        await this.providerSelector.$(`img[alt="${name.toUpperCase()}"]`);
     }
 
     static async closeDocumentationSlide() {
         const EC = protractor.ExpectedConditions;
-        const closeIcon = $('i[data-qa*="documentation-close"]');
+        const closeIcon = await $('i[data-qa*="documentation-close"]');
+        const isCloseIconPresent = await closeIcon.isPresent();
 
-        if (await browser.wait(EC.elementToBeClickable(closeIcon), 5000,'Credential Documentation slide is not visible')) await closeIcon.click();
+        if (isCloseIconPresent) {
+            await browser.wait(EC.elementToBeClickable(closeIcon), 5000, 'Documentation slide is not visible');
+            await closeIcon.click();
+        }
     }
 
     static async createOpenStackCredential(credentialCreateParams: OSCredentialCreateParams) {
@@ -31,17 +36,13 @@ export class CredentialCreateWizard {
 
         await this.closeDocumentationSlide();
 
-        await keystoneSelector.click().then(() => {
-            return element(by.cssContainingText('mat-option', credentialCreateParams.keystoneVersion)).click();
-        });
+        await PageHelpers.setDropDownValueTo(keystoneSelector, credentialCreateParams.keystoneVersion);
         await nameField.sendKeys(credentialCreateParams.name);
         await userField.sendKeys(credentialCreateParams.user);
         await passwordField.sendKeys(credentialCreateParams.password);
         await tenantField.sendKeys(credentialCreateParams.tenantName);
         await endpointField.sendKeys(credentialCreateParams.endpoint);
-        await apiSelector.click().then(() => {
-            return element(by.cssContainingText('mat-option[class*="mat-option ng-star-inserted"]', credentialCreateParams.apiFacing)).click();
-        });
-        return await createButton.click();
+        await PageHelpers.setDropDownValueTo(apiSelector, credentialCreateParams.apiFacing);
+        await createButton.click();
     }
 }

@@ -1,109 +1,104 @@
-import { $, browser, by, element, protractor } from 'protractor';
+import { $, browser, protractor } from 'protractor';
+import { ClusterCreateParams } from '../../types/clusterCreateParams.type';
+import { ClusterCreateFlags } from '../../types/clusterCreateFlags.type';
+import { PageHelpers } from '../../helpers/pageHelpers';
 
 export class ClusterCreateWizard {
-    public static templateSwitch = $('app-basic-advanced-toggler i');
-    public static credentialSelector = $('[placeholder="Please select credential"]');
-    public static clusterNameField = $('#clusterName');
-    public static imageTypeSelect = $('[data-qa="imagetype-select"]');
-    public static baseImageOption = $('[data-qa="image-base"]');
-    public static userField = $('input[formcontrolname="username"]');
-    public static passwordField = $('input[formcontrolname="password"]');
-    public static confirmPasswordField = $('input[formcontrolname="passwordConfirmation"]');
-    public static sshTextarea = $('[formcontrolname="publicKey"]');
-    public static sshSelector = $('#cb-cluster-create-security-ssh-key-name-select');
-    public static createButton = $('.btn.btn-primary.text-uppercase');
-    public static nextButton = $('.action-container .btn.btn-primary');
+    public static templateSwitch = $('[data-qa="createcluster-mode"] i');
+    public static blueprintSelector = $('[data-qa="createcluster-general-blueprint"]');
+    public static clusterNameField = $('[data-qa="createcluster-general-name"]');
 
     static async setAdvancedTemplate() {
-        return await this.templateSwitch.click();
+        await this.templateSwitch.click();
     }
 
-    static async selectCredential(name: string) {
-        await this.credentialSelector.click();
-        return await element(by.cssContainingText('mat-option', name)).click();
-    }
-
-    static async selectSSHKey(name: string) {
+    static async clickNextOnPage(title: string) {
         const EC = protractor.ExpectedConditions;
-        const desiredSSHKeyName = element(by.cssContainingText('.mat-option', name));
+        const pageTitle = $('[data-qa="createcluster-title"]');
+        const nextButton = $('[data-qa="createcluster-next"]');
 
-        await this.sshSelector.click();
-        await browser.wait(EC.elementToBeClickable(desiredSSHKeyName), 5000, name + ' SSH Key is not present in the DOM');
-        return await desiredSSHKeyName.click();
-    }
-
-    static async setNewSSHKey(sshKey: string) {
-        const createNewSSHKeyTab = $("app-security mat-radio-button[id='cb-cluster-create-new-ssh-key']");
-        const sshTextarea = $("textarea[formcontrolname='publicKey']");
-
-        await createNewSSHKeyTab.click();
-        await sshTextarea.clear().then(() => {
-            return sshTextarea.sendKeys(sshKey);
-        });
-    }
-
-    static async generalConfiguration(credentialName: string, clusterName: string) {
-        await this.selectCredential(credentialName);
-        await this.clusterNameField.sendKeys(clusterName);
+        await browser.wait(EC.textToBePresentInElement(pageTitle, title), 5000, `${title} does not present on the page`);
+        await browser.wait(EC.elementToBeClickable(nextButton), 20000, 'Next button is not present on the page or still disabled');
+        await nextButton.click();
     }
 
     static async selectBaseImage() {
-        const EC = protractor.ExpectedConditions;
-
-        await browser.wait(EC.elementToBeClickable(this.imageTypeSelect), 10000, 'Base image selector is not present in the DOM');
-        await this.imageTypeSelect.click();
-        await browser.wait(EC.elementToBeClickable(this.baseImageOption), 10000, 'Base image option is not present in the DOM');
-        await this.baseImageOption.click();
-    }
-
-    static async clickNextOnPage(pageAppName: string) {
-        const EC = protractor.ExpectedConditions;
-        let app = $(pageAppName);
-
-        await browser.wait(EC.presenceOf(app), 10000, pageAppName + ' does not present in the DOM');
-        await browser.wait(EC.elementToBeClickable(this.nextButton), 10000, 'Next button is not present in the DOM');
-        await this.nextButton.click();
+        await $('[data-qa="imagetype-select"]').click();
+        await $('[data-qa="image-base"]').click();
     }
 
     static async disableGatewayTopology() {
-        const gatewaySlider = $('app-gateway-configuration mat-slide-toggle');
-
-        await gatewaySlider.getAttribute('class').then(elementClass => {
-            if (elementClass.includes('mat-checked')) {
-                return gatewaySlider.click();
-            } else {
-                return console.log('Gateway Topology is already disabled.');
-            }
-        });
+        await $('[data-qa="createcluster-gateway-slide"]').click();
     }
 
-    static async security(user: string, password: string, ssh: string, isSSHName = true) {
-        await this.userField.clear().then(() => {
-            return this.userField.sendKeys(user);
-        });
-        await this.passwordField.clear().then(() => {
-            return this.passwordField.sendKeys(password);
-        });
-        await this.confirmPasswordField.clear().then(() => {
-            return this.confirmPasswordField.sendKeys(password);
-        });
-        isSSHName ? await this.selectSSHKey(ssh) : await this.setNewSSHKey(ssh);
+    static async setAmbariCredentials(user: string, password: string) {
+        const userField = $('[data-qa="createcluster-security-user"]');
+        const passwordField = $('[data-qa="createcluster-security-password"]');
+        const confirmPasswordField = $('[data-qa="createcluster-security-confirmpassword"]');
+
+        await userField.clear();
+        await userField.sendKeys(user);
+        await passwordField.clear();
+        await passwordField.sendKeys(password);
+        await confirmPasswordField.clear();
+        await confirmPasswordField.sendKeys(password);
     }
 
-    static async createOpenStackCluster(credentialName: string, clusterName: string, user: string, password: string, sshKeyName: string, network?: string, subnet?: string, securityGroupMaster?: string, securityGroupWorker?: string, securityGroupCompute?: string) {
-        await this.setAdvancedTemplate();
-        await this.generalConfiguration(credentialName, clusterName);
-        await this.clickNextOnPage('app-general-configuration');
-        await this.selectBaseImage();
-        await this.clickNextOnPage('app-image-catalog');
-        await this.clickNextOnPage('app-hardware-and-storage');
-        await this.clickNextOnPage('app-config-cluster-extensions');
-        await this.clickNextOnPage('app-config-external-sources');
+    static async createCluster(clusterCreateParams: ClusterCreateParams, flags: ClusterCreateFlags = { isAdvanced: true }) {
+        const EC = protractor.ExpectedConditions;
+        const credentialSelector = $('[data-qa="createcluster-general-credential"]');
+        const isCredentialSelectorPresent = await credentialSelector.isPresent();
+
+        browser.driver.manage().window().maximize();
+        
+        if (flags.isAdvanced) {
+            await this.setAdvancedTemplate();
+        }
+        if (isCredentialSelectorPresent) {
+            await browser.wait(EC.elementToBeClickable(credentialSelector), 5000, 'Credential selector is not available');
+            await PageHelpers.setDropDownValueTo(credentialSelector, clusterCreateParams.credentialName);
+        }
+        await this.clusterNameField.sendKeys(clusterCreateParams.clusterName);
+        if (!!clusterCreateParams.blueprintName) {
+            await PageHelpers.setDropDownValueTo(this.blueprintSelector, clusterCreateParams.blueprintName);
+        }
+        await this.clickNextOnPage('General Configuration');
+        if (flags.isAdvanced) {
+            await this.selectBaseImage();
+            await this.clickNextOnPage('Image Settings');
+        }
+        await this.clickNextOnPage('Hardware and Storage');
+        if (flags.isAdvanced && flags.isCloudStorageSupported) {
+            await this.clickNextOnPage('Cloud Storage');
+        }
+        if (flags.isAdvanced) {
+            await this.clickNextOnPage('Recipes');
+            await this.clickNextOnPage('Configure Authentication');
+        }
         await this.disableGatewayTopology();
-        await this.clickNextOnPage('app-gateway-configuration');
-        await this.clickNextOnPage('app-network');
-        await this.security(user, password, sshKeyName);
+        await this.clickNextOnPage('Gateway Topology');
+        await this.clickNextOnPage('Network');
+        await this.setAmbariCredentials(clusterCreateParams.user, clusterCreateParams.password);
+        if (clusterCreateParams.sshKeyString) {
+            const sshNewRadioButton = $('[data-qa="createcluster-new-sshkey"]');
+            const isSshNewRadioButtonPresent = await sshNewRadioButton.isPresent();
+            const sshTextarea = $('[data-qa="createcluster-security-sshkey"]');
 
-        return await this.createButton.click();
+            if (isSshNewRadioButtonPresent) {
+                await browser.wait(EC.elementToBeClickable(sshNewRadioButton), 5000, 'New SSH Key radio button is not available');
+                await sshNewRadioButton.click();
+                await PageHelpers.fillTextAreaTo(sshTextarea, clusterCreateParams.sshKeyString);
+            }
+        } else {
+            const sshSelector = $('[data-qa="createcluster-security-sshkey"]');
+            const sshSelectorPresent = await sshSelector.isPresent();
+
+            if (sshSelectorPresent) {
+                await browser.wait(EC.elementToBeClickable(sshSelector), 5000, 'SSH Key Name selector is not available');
+                await PageHelpers.setDropDownValueTo(sshSelector, clusterCreateParams.sshKeyName);
+            }
+        }
+
+        return await $('[data-qa="createcluster-create"]').click();
     }
 }

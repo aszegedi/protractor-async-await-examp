@@ -6,7 +6,7 @@
  */
 
 import { browser, Config, protractor } from 'protractor';
-import { BASE_URL, CHROME_BIN, CHROME_DRIVER_BIN, PASSWORD_GUI, USERNAME_GUI } from './environment/environment';
+import { BASE_URL, CHROME_BIN, CHROME_DRIVER_BIN, CLOUDBREAK_PASSWORD, CLOUDBREAK_USERNAME } from './environment/environment';
 
 // https://github.com/allure-framework/allure-jasmine/issues/21
 declare const allure: any;
@@ -95,7 +95,7 @@ export let config: Config = {
         '../tests/specLogin.ts',
         '../tests/specBase.ts',
         '../tests/specCredential.ts',
-        //'../tests/specCluster.ts'
+        '../tests/specCluster.ts'
     ],
 
     /**
@@ -111,8 +111,8 @@ export let config: Config = {
         const EC = protractor.ExpectedConditions;
 
         console.log('The Base URL is: ' + BASE_URL);
-        console.log('The Username is: ' + USERNAME_GUI);
-        console.log('The Password is: ' + PASSWORD_GUI);
+        console.log('The Username is: ' + CLOUDBREAK_USERNAME);
+        console.log('The Password is: ' + CLOUDBREAK_PASSWORD);
 
         browser.getCapabilities().then((browserCapabilities: any) => {
             console.log('Browser name is: ' + browserCapabilities.get('browserName'));

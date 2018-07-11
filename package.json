@@ -37,6 +37,8 @@
   "devDependencies": {
     "@types/jasminewd2": "^2.0.3",
     "@types/jasmine": "^2.8.7",
+    "@types/protractor": "^4.0.0",
+    "@types/selenium-webdriver": "^3.0.10",
     "ts-node": "^6.0.3",
     "allure-commandline": "^2.5.0",
     "rimraf": "^2.6.2",

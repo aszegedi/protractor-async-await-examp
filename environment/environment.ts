@@ -1,8 +1,8 @@
 /// <reference types="node" />
 
 export const BASE_URL = process.env.BASE_URL || 'https://192.168.99.100';
-export const USERNAME_GUI = process.env.USERNAME_GUI || 'admin@example.com';
-export const PASSWORD_GUI = process.env.PASSWORD_GUI || 'cloudbreak';
+export const CLOUDBREAK_USERNAME = process.env.CLOUDBREAK_USERNAME || 'admin@example.com';
+export const CLOUDBREAK_PASSWORD = process.env.CLOUDBREAK_PASSWORD || 'cloudbreak';
 
 export const OS_USERNAME = process.env.OS_USERNAME || 'cloudbreak';
 export const OS_PASSWORD = process.env.OS_PASSWORD || 'cloudbreak';

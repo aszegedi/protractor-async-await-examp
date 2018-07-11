@@ -1,5 +1,5 @@
 import { LoginPage } from '../pages/loginPage';
-import { BASE_URL, PASSWORD_GUI, USERNAME_GUI } from '../environment/environment';
+import { BASE_URL, CLOUDBREAK_PASSWORD, CLOUDBREAK_USERNAME } from '../environment/environment';
 import { browser } from 'protractor';
 import { PageHelpers } from '../helpers/pageHelpers';
 
@@ -23,7 +23,7 @@ describe('Cloudbreak Login examples', () => {
         });
 
         it('valid user credentials should be successfull', async () => {
-            await LoginPage.login(USERNAME_GUI, PASSWORD_GUI);
+            await LoginPage.login(CLOUDBREAK_USERNAME, CLOUDBREAK_PASSWORD);
 
             expect(await actualURL).not.toContain('login');
         });

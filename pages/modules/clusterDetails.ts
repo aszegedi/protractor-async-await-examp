@@ -1,11 +1,11 @@
 import { $ } from 'protractor';
 
 export class ClusterDetails {
-    public static terminateButton = $('.btn.btn-secondary.btn-terminate');
+    public static terminateButton = $('[data-qa="clusterdetails-terminate"]');
 
     static async forceTerminateCluster() {
-        const confirmationYesButton = $('.modal-window-footer.clear-right button.btn.btn-primary.pull-right.text-uppercase');
-        const forceTermination = $('app-delete-stack-dialog mat-checkbox');
+        const confirmationYesButton = $('[data-qa="clusterterminate-yes"]');
+        const forceTermination = $('[data-qa="clusterterminate-force"]');
         const forceTerminationLabel = forceTermination.$('label');
 
         await this.terminateButton.click();

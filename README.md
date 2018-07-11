@@ -40,10 +40,10 @@ Create a demo project with Protractor to cover a cluster creation workflow with 
     ```
     export BASE_URL=your.url
     launchctl setenv BASE_URL $BASE_URL
-    export USERNAME_GUI=your@mail.address
-    launchctl setenv USERNAME_GUI $USERNAME_GUI
-    export PASSWORD_GUI=your.password
-    launchctl setenv PASSWORD_GUI $PASSWORD_GUI
+    export CLOUDBREAK_USERNAME=your@mail.address
+    launchctl setenv CLOUDBREAK_USERNAME $CLOUDBREAK_USERNAME
+    export CLOUDBREAK_PASSWORD=your.password
+    launchctl setenv CLOUDBREAK_PASSWORD $CLOUDBREAK_PASSWORD
     ...etc.
     ```
     
@@ -53,8 +53,8 @@ Create a demo project with Protractor to cover a cluster creation workflow with 
     
     ```
     export BASE_URL=your.url
-    export USERNAME_GUI=your@mail.address
-    export PASSWORD_GUI=your.password
+    export CLOUDBREAK_USERNAME=your@mail.address
+    export CLOUDBREAK_PASSWORD=your.password
     ...etc.
     export PATH=/<local path of the project>/cloud-e2e-protractor/node_modules/protractor/bin:$PATH
     ```

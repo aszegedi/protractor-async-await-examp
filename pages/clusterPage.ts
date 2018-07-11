@@ -1,34 +1,22 @@
 import { BasePage } from "./basePage";
-import { $, browser, by, protractor } from 'protractor';
+import { $ } from 'protractor';
+import { PageHelpers } from '../helpers/pageHelpers';
 
 export class ClusterPage extends BasePage {
-    public static createButton = $('#btnCreateCluster');
+    public static createButton = $('[data-qa="clusters-create"]');
 
-    static async waitForWidgetStatus(clusterName: string, state: string, staleness = false) {
-        const EC = protractor.ExpectedConditions;
-        const desiredStatus = $('a[data-stack-name="' + clusterName + '"]').element(by.cssContainingText('[data-qa="stack-status"]', state));
+    static getWidget(name: string) {
+        const clusterWidget = $(`[data-qa="${name}"]`);
 
-        if(staleness) {
-            return await browser.wait(EC.stalenessOf(desiredStatus), 1800000, clusterName + ' state has not been changed from ' + state);
-        } else {
-            return await browser.wait(EC.presenceOf(desiredStatus), 1800000, clusterName + ' is not in the desired state ' + state);
-        }
+        return clusterWidget.isDisplayed();
     }
 
-    static async getWidget(clusterName: string, staleness = false) {
-        const EC = protractor.ExpectedConditions;
-        const clusterWidget = $('a[data-stack-name="' + clusterName + '"]');
+    static async openClusterDetails(name: string) {
+        const clusterWidget = $(`[data-qa="${name}"]`);
+        const clusterHref = await clusterWidget.getAttribute('href');
+        const clusterID = await clusterHref.split('/')[4];
 
-        if(staleness) {
-            return await browser.wait(EC.stalenessOf(clusterWidget), 1800000, clusterName + ' has not been terminated!');
-        } else {
-            return await browser.wait(EC.presenceOf(clusterWidget), 1800000, clusterName + ' has not been created!');
-        }
-    }
-
-    static async openClusterDetails(clusterName: string) {
-        const widgetLink = $('a[data-stack-name="' + clusterName + '"]');
-
-        await widgetLink.click();
+        console.log(`The cluster ID is [ ${clusterID} ]`);
+        await PageHelpers.openPage(`clusters/${clusterID}/hardware`);
     }
 }

@@ -1,6 +1,6 @@
 import { BasePage } from '../pages/basePage';
 import { LoginPage } from '../pages/loginPage';
-import { PASSWORD_GUI, USERNAME_GUI } from '../environment/environment';
+import { CLOUDBREAK_PASSWORD, CLOUDBREAK_USERNAME } from '../environment/environment';
 import { PageHelpers } from '../helpers/pageHelpers';
 
 const testDataProvider = require('../data/navigation.json');
@@ -13,7 +13,7 @@ describe('Cloudbreak Base examples', () => {
     });
 
     afterAll(async () => {
-        await LoginPage.login(USERNAME_GUI, PASSWORD_GUI);
+        await LoginPage.login(CLOUDBREAK_USERNAME, CLOUDBREAK_PASSWORD);
     });
 
     testDataProvider.forEach((data) => {
