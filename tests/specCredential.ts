@@ -1,20 +1,19 @@
 import { CredentialCreateWizard } from '../pages/modules/credentialCreateWizard';
-import { OS_APIFACING, OS_AUTH_URL, OS_KEYSTONE, OS_PASSWORD, OS_TENANT_NAME, OS_USERNAME } from '../environment/environment';
-import { PageHelpers } from '../helpers/pageHelpers';
+import { CREDENTIAL_NAME, OS_APIFACING, OS_AUTH_URL, OS_KEYSTONE, OS_PASSWORD, OS_TENANT_NAME, OS_USERNAME } from '../environment/environment';
+import { ProtractorHelper } from '../helpers/protractor.helper';
 
 describe('Cloudbreak Credential examples', () => {
 
     describe('where new OpenStack credential', () => {
-        const credentialName = 'autotesting-os';
+        const credentialName = `${CREDENTIAL_NAME}-credential`;
 
         afterAll(async () => {
-            await PageHelpers.deleteFromTable(credentialName);
-            await PageHelpers.isItemPresentInTable(credentialName)
+            await ProtractorHelper.deleteAllFromTable(CREDENTIAL_NAME);
+            await ProtractorHelper.isItemPresentInTable(CREDENTIAL_NAME)
         });
 
         it('should be created successfully', async () => {
-            await PageHelpers.openPage('getstarted');
-            await CredentialCreateWizard.selectProvider('openstack');
+            await ProtractorHelper.openPage('getstarted');
             await CredentialCreateWizard.createOpenStackCredential({
                 keystoneVersion: OS_KEYSTONE,
                 name: credentialName,
@@ -25,9 +24,11 @@ describe('Cloudbreak Credential examples', () => {
                 apiFacing: OS_APIFACING.charAt(0).toUpperCase() + OS_APIFACING.slice(1)
             });
 
-            await PageHelpers.openPage('credentials');
+            await ProtractorHelper.openPage('credentials');
 
-            expect(await PageHelpers.isItemPresentInTable(credentialName)).toBeTruthy();
+            const isCredentialCreated = await ProtractorHelper.isItemPresentInTable(credentialName);
+
+            await expect(isCredentialCreated).toBeTruthy();
         });
     });
 });

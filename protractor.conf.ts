@@ -5,7 +5,7 @@
  * and adjust if it is needed for you.
  */
 
-import { browser, Config, protractor } from 'protractor';
+import { $, browser, Config, protractor } from 'protractor';
 import { BASE_URL, CHROME_BIN, CHROME_DRIVER_BIN, CLOUDBREAK_PASSWORD, CLOUDBREAK_USERNAME } from './environment/environment';
 
 // https://github.com/allure-framework/allure-jasmine/issues/21
@@ -16,7 +16,7 @@ export let config: Config = {
         {
             path: '../node_modules/protractor-console',
             package: 'protractor-console',
-            logLevels: ['severe']
+            logLevels: ['severe'],
         }
     ],
 
@@ -94,8 +94,8 @@ export let config: Config = {
     specs: [
         '../tests/specLogin.ts',
         '../tests/specBase.ts',
-        '../tests/specCredential.ts',
-        '../tests/specCluster.ts'
+        '../tests/specCluster.ts',
+        '../tests/specCredential.ts'
     ],
 
     /**
@@ -107,9 +107,7 @@ export let config: Config = {
         });
     },
 
-    onPrepare: () => {
-        const EC = protractor.ExpectedConditions;
-
+    onPrepare: async () => {
         console.log('The Base URL is: ' + BASE_URL);
         console.log('The Username is: ' + CLOUDBREAK_USERNAME);
         console.log('The Password is: ' + CLOUDBREAK_PASSWORD);
@@ -123,12 +121,12 @@ export let config: Config = {
         /**
          * WebDriver general settings for browsers.
          */
-        browser.manage().deleteAllCookies();
+        await browser.manage().deleteAllCookies();
         // https://github.com/angular/protractor/issues/1467
         //browser.manage().window().maximize();
-        browser.manage().window().setSize(1280, 1024);
-        browser.manage().timeouts().implicitlyWait(20000);
-        browser.manage().timeouts().pageLoadTimeout(60000);
+        await browser.manage().window().setSize(1280, 1024);
+        await browser.manage().timeouts().implicitlyWait(20000);
+        await browser.manage().timeouts().pageLoadTimeout(60000);
 
         /**
          * https://github.com/angular/protractor/issues/3009
@@ -152,7 +150,8 @@ export let config: Config = {
          * You can use parameter 'browser.params.baseUrl' with 'protractor protractor.conf.js --params.baseUrl=https://123.12.123.12:3000/'.
          */
         browser.waitForAngularEnabled(false);
-        browser.get(browser.baseUrl);
+
+        await browser.get(browser.baseUrl);
 
         // It genereates JUnit XML report for test run.
         const jasmineReporters = require('jasmine-reporters');

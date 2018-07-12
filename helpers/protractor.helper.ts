@@ -1,7 +1,7 @@
 import { $, $$, browser, by, element, protractor, WebElement } from 'protractor';
 import { BASE_URL } from '../environment/environment';
 
-export class PageHelpers {
+export class ProtractorHelper {
     static async closeConfirmation(approve = false) {
         const EC = protractor.ExpectedConditions;
         const confirmationCancel = $('[data-qa="confirmation-cancel"]');
@@ -12,13 +12,12 @@ export class PageHelpers {
             await browser.wait(EC.elementToBeClickable(confirmationCancel), 5000, 'Confirmation dialog is not visible');
             if (isDialogPresent) approve ? await confirmationYes.click() : await confirmationCancel.click();
         }
+
+        await browser.wait(EC.invisibilityOf(confirmationCancel), 5000, 'Confirmation dialog has not been closed');
     }
 
     static async getPageUrl() {
-        const pageURL = await browser.getCurrentUrl();
-
-        console.log(`The current URL is: ${pageURL}`);
-        return pageURL;
+        return await browser.getCurrentUrl();
     }
 
     static async getPageTitle() {
@@ -41,27 +40,16 @@ export class PageHelpers {
     }
 
     static async isItemPresentInTable(name: string) {
-        const EC = protractor.ExpectedConditions;
-        const tableRow = await $(`[data-qa="${name}"]`);
-        const isTableRowPresent = await tableRow.isPresent();
-
-        if (isTableRowPresent) {
-            await browser.wait(EC.visibilityOf(tableRow), 5000, `${name} row is not visible`);
-            return tableRow.isDisplayed();
-        } else {
-            return false;
-        }
+        return $(`[data-qa="${name}"]`).isPresent();
     }
 
     static async deleteAllFromTable(name: string) {
-        const selectedItems = await $$(`[data-qa*="${name}"]`);
+        const selectedItems = $$(`[data-qa*="${name}"]`);
+        const selectedItemsCount = await selectedItems.count();
 
-        for (let item of selectedItems) {
-            const checkbox = await selectedItems[item].$('mat-checkbox');
-            const deleteIcon = await $(`[data-qa="delete"]`);
-
-            await checkbox.click();
-            await deleteIcon.click();
+        for (let i = 0; i < selectedItemsCount; i++) {
+            await selectedItems.get(0).$('mat-checkbox').click();
+            await $(`[data-qa="delete"]`).click();
             await this.closeConfirmation(true);
         }
     }

@@ -1,15 +1,13 @@
 import { BasePage } from '../pages/basePage';
 import { LoginPage } from '../pages/loginPage';
 import { CLOUDBREAK_PASSWORD, CLOUDBREAK_USERNAME } from '../environment/environment';
-import { PageHelpers } from '../helpers/pageHelpers';
+import { ProtractorHelper } from '../helpers/protractor.helper';
 
 const testDataProvider = require('../data/navigation.json');
 
 describe('Cloudbreak Base examples', () => {
-    const actualURL = PageHelpers.getPageUrl();
-
     beforeAll(async () => {
-       await PageHelpers.closeConfirmation();
+       await ProtractorHelper.closeConfirmation();
     });
 
     afterAll(async () => {
@@ -18,13 +16,16 @@ describe('Cloudbreak Base examples', () => {
 
     testDataProvider.forEach((data) => {
         it(`${data.name} menu item should be available`, async () => {
-            expect(await BasePage.isMenuItemPresent(data.class, data.submenu, data.subclass)).toBeTruthy();
+            const isMenuPresent = await BasePage.isMenuItemPresent(data.class, data.submenu, data.subclass);
+
+            await expect(isMenuPresent).toBeTruthy();
         });
     });
 
     it('should be able to log out from', async () => {
         await BasePage.logOut();
+        const actualURL = await ProtractorHelper.getPageUrl();
 
-        expect(await actualURL).not.toContain('clusters');
+        await expect(actualURL).not.toContain('clusters');
     });
 });

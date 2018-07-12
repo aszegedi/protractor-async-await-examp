@@ -1,7 +1,7 @@
-import { $, browser, protractor } from 'protractor';
+import { $, browser, by, element, protractor } from 'protractor';
 import { ClusterCreateParams } from '../../types/clusterCreateParams.type';
 import { ClusterCreateFlags } from '../../types/clusterCreateFlags.type';
-import { PageHelpers } from '../../helpers/pageHelpers';
+import { ProtractorHelper } from '../../helpers/protractor.helper';
 
 export class ClusterCreateWizard {
     public static templateSwitch = $('[data-qa="createcluster-mode"] i');
@@ -49,18 +49,18 @@ export class ClusterCreateWizard {
         const credentialSelector = $('[data-qa="createcluster-general-credential"]');
         const isCredentialSelectorPresent = await credentialSelector.isPresent();
 
-        browser.driver.manage().window().maximize();
-        
+        await browser.driver.manage().window().maximize();
+
         if (flags.isAdvanced) {
             await this.setAdvancedTemplate();
         }
         if (isCredentialSelectorPresent) {
             await browser.wait(EC.elementToBeClickable(credentialSelector), 5000, 'Credential selector is not available');
-            await PageHelpers.setDropDownValueTo(credentialSelector, clusterCreateParams.credentialName);
+            await ProtractorHelper.setDropDownValueTo(credentialSelector, clusterCreateParams.credentialName);
         }
         await this.clusterNameField.sendKeys(clusterCreateParams.clusterName);
         if (!!clusterCreateParams.blueprintName) {
-            await PageHelpers.setDropDownValueTo(this.blueprintSelector, clusterCreateParams.blueprintName);
+            await ProtractorHelper.setDropDownValueTo(this.blueprintSelector, clusterCreateParams.blueprintName);
         }
         await this.clickNextOnPage('General Configuration');
         if (flags.isAdvanced) {
@@ -87,18 +87,21 @@ export class ClusterCreateWizard {
             if (isSshNewRadioButtonPresent) {
                 await browser.wait(EC.elementToBeClickable(sshNewRadioButton), 5000, 'New SSH Key radio button is not available');
                 await sshNewRadioButton.click();
-                await PageHelpers.fillTextAreaTo(sshTextarea, clusterCreateParams.sshKeyString);
+                await ProtractorHelper.fillTextAreaTo(sshTextarea, clusterCreateParams.sshKeyString);
             }
         } else {
             const sshSelector = $('[data-qa="createcluster-security-sshkey"]');
             const sshSelectorPresent = await sshSelector.isPresent();
 
             if (sshSelectorPresent) {
+                const desiredOption = element(by.cssContainingText('.mat-option-text', clusterCreateParams.sshKeyName));
+
                 await browser.wait(EC.elementToBeClickable(sshSelector), 5000, 'SSH Key Name selector is not available');
-                await PageHelpers.setDropDownValueTo(sshSelector, clusterCreateParams.sshKeyName);
+                await browser.wait(EC.elementToBeClickable(desiredOption), 5000, `${clusterCreateParams.sshKeyName} is not present in the list`);
+                await ProtractorHelper.setDropDownValueTo(sshSelector, clusterCreateParams.sshKeyName);
             }
         }
 
-        return await $('[data-qa="createcluster-create"]').click();
+        await $('[data-qa="createcluster-create"]').click();
     }
 }
