@@ -40,7 +40,7 @@ export class ProtractorHelper {
     }
 
     static async isItemPresentInTable(name: string) {
-        return $(`[data-qa="${name}"]`).isPresent();
+        return await $$(`[data-qa*="${name}"]`).count();
     }
 
     static async deleteAllFromTable(name: string) {

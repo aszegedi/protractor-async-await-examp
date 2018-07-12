@@ -9,7 +9,7 @@ describe('Cloudbreak Credential examples', () => {
 
         afterAll(async () => {
             await ProtractorHelper.deleteAllFromTable(CREDENTIAL_NAME);
-            await ProtractorHelper.isItemPresentInTable(CREDENTIAL_NAME)
+            await ProtractorHelper.isItemPresentInTable(CREDENTIAL_NAME);
         });
 
         it('should be created successfully', async () => {
@@ -26,9 +26,9 @@ describe('Cloudbreak Credential examples', () => {
 
             await ProtractorHelper.openPage('credentials');
 
-            const isCredentialCreated = await ProtractorHelper.isItemPresentInTable(credentialName);
+            const countCredentialWithName = await ProtractorHelper.isItemPresentInTable(credentialName);
 
-            await expect(isCredentialCreated).toBeTruthy();
+            await expect(countCredentialWithName).toEqual(1);
         });
     });
 });
