@@ -1,4 +1,4 @@
-import { $, browser, protractor } from 'protractor';
+import { $, $$, browser, protractor } from 'protractor';
 import { OSCredentialCreateParams } from '../../types/osCredentialCreateParams.type';
 import { ProtractorHelper } from '../../helpers/protractor.helper';
 import { AWSCredentialCreateParams } from '../../types/awsCredentialCreateParams.type';
@@ -20,14 +20,14 @@ export class CredentialCreateWizard {
 
     static async closeDocumentationSlide() {
         const EC = protractor.ExpectedConditions;
-        const closeIcon = $('i[data-qa*="documentation-close"]');
+        const closeIcon = $('i[data-qa$="documentation-close"]');
 
-        if (await closeIcon.isPresent()) {
+        try {
             await browser.wait(EC.elementToBeClickable(closeIcon), 5000, 'Documentation slide has not been opened');
             await closeIcon.click();
+        } catch (e) {
+            await browser.wait(EC.invisibilityOf(closeIcon), 5000, 'Documentation slide has not been closed');
         }
-
-        await browser.wait(EC.invisibilityOf(closeIcon), 5000, 'Documentation slide has not been closed');
     }
 
     static async createOpenStackCredential(credentialCreateParams: OSCredentialCreateParams) {

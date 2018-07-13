@@ -47,16 +47,17 @@ export class ClusterCreateWizard {
     static async createCluster(clusterCreateParams: ClusterCreateParams, flags: ClusterCreateFlags = { isAdvanced: true }) {
         const EC = protractor.ExpectedConditions;
         const credentialSelector = $('[data-qa="createcluster-general-credential"]');
-        const isCredentialSelectorPresent = await credentialSelector.isPresent();
 
         await browser.driver.manage().window().maximize();
 
         if (flags.isAdvanced) {
             await this.setAdvancedTemplate();
         }
-        if (isCredentialSelectorPresent) {
+        try {
             await browser.wait(EC.elementToBeClickable(credentialSelector), 5000, 'Credential selector is not available');
             await ProtractorHelper.setDropDownValueTo(credentialSelector, clusterCreateParams.credentialName);
+        } catch (e) {
+            console.log(`${clusterCreateParams.credentialName} is the default credential`);
         }
         await this.clusterNameField.sendKeys(clusterCreateParams.clusterName);
         if (!!clusterCreateParams.blueprintName) {
@@ -91,14 +92,12 @@ export class ClusterCreateWizard {
             }
         } else {
             const sshSelector = $('[data-qa="createcluster-security-sshkey"]');
-            const sshSelectorPresent = await sshSelector.isPresent();
 
-            if (sshSelectorPresent) {
-                const desiredOption = element(by.cssContainingText('.mat-option-text', clusterCreateParams.sshKeyName));
-
+            try {
                 await browser.wait(EC.elementToBeClickable(sshSelector), 5000, 'SSH Key Name selector is not available');
-                await browser.wait(EC.elementToBeClickable(desiredOption), 5000, `${clusterCreateParams.sshKeyName} is not present in the list`);
                 await ProtractorHelper.setDropDownValueTo(sshSelector, clusterCreateParams.sshKeyName);
+            } catch (e) {
+                console.log(`${clusterCreateParams.sshKeyName} is not selectable`);
             }
         }
 

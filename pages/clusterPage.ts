@@ -13,10 +13,10 @@ export class ClusterPage extends BasePage {
         const EC = protractor.ExpectedConditions;
         const clusterWidget = $(`[data-qa="${name}"]`);
 
-        if(clusterWidget.isPresent()) {
+        try {
             await browser.wait(EC.textToBePresentInElement(clusterWidget, desiredStatus), 5000, `${desiredStatus} status is not present`);
             return await clusterWidget.$('[data-qa="stack-status"]').getText();
-        } else {
+        } catch (e) {
             return 'Stale';
         }
     }

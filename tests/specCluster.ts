@@ -29,11 +29,10 @@ describe('Cloudbreak Cluster examples', () => {
                 endpoint: OS_AUTH_URL,
                 apiFacing: OS_APIFACING.charAt(0).toUpperCase() + OS_APIFACING.slice(1)
             });
+            await ProtractorHelper.openPage('clusters/ref/create');
         });
 
         it('should be done successfully', async () => {
-            await ProtractorHelper.openPage('clusters/ref/create');
-
             await ClusterCreateWizard.createCluster({
                     credentialName: credentialName,
                     clusterName: clusterName,
@@ -69,11 +68,10 @@ describe('Cloudbreak Cluster examples', () => {
                 name: credentialName,
                 roleArn: AWS_ROLE_ARN
             });
+            await ProtractorHelper.openPage('clusters/ref/create');
         });
 
         it('should be done successfully', async () => {
-            await ProtractorHelper.openPage('clusters/ref/create');
-
             await ClusterCreateWizard.createCluster({
                     credentialName: credentialName,
                     clusterName: clusterName,
@@ -112,11 +110,10 @@ describe('Cloudbreak Cluster examples', () => {
                 appId: ARM_APP_ID,
                 appPassword: ARM_PASSWORD
             });
+            await ProtractorHelper.openPage('clusters/ref/create');
         });
 
         it('should be done successfully', async () => {
-            await ProtractorHelper.openPage('clusters/ref/create');
-
             await ClusterCreateWizard.createCluster({
                     credentialName: credentialName,
                     clusterName: clusterName,
@@ -154,11 +151,10 @@ describe('Cloudbreak Cluster examples', () => {
                 serviceAccountEmail: GCP_ACCOUNT_EMAIL,
                 filePath: P12_PATH
             });
+            await ProtractorHelper.openPage('clusters/ref/create');
         });
 
         it('should be done successfully', async () => {
-            await ProtractorHelper.openPage('clusters/ref/create');
-
             await ClusterCreateWizard.createCluster({
                     credentialName: credentialName,
                     clusterName: clusterName,

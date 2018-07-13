@@ -1,4 +1,4 @@
-import { $, $$, browser, by, element, protractor, WebElement } from 'protractor';
+import { $, $$, browser, by, element, ElementFinder, protractor, WebElement } from 'protractor';
 import { BASE_URL } from '../environment/environment';
 
 export class ProtractorHelper {
@@ -29,9 +29,14 @@ export class ProtractorHelper {
         await this.closeConfirmation();
     }
 
-    static async setDropDownValueTo(selector: WebElement, name: string) {
+    static async setDropDownValueTo(selector: ElementFinder, name: string) {
+        const EC = protractor.ExpectedConditions;
+        const desiredOption = element(by.cssContainingText('mat-option', name));
+
+        await browser.wait(EC.elementToBeClickable(selector), 5000, 'Selector is not clickable');
         await selector.click();
-        await element(by.cssContainingText('mat-option', name)).click();
+        await browser.executeScript('arguments[0].scrollIntoView(true)', desiredOption);
+        await desiredOption.click();
     }
 
     static async fillTextAreaTo(textarea: WebElement, value: string) {
