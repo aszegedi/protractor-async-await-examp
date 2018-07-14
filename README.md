@@ -18,7 +18,7 @@ check the [SeleniumHQ's github issue](https://github.com/SeleniumHQ/selenium/iss
 I created a [new TestCafe project](https://github.com/aszegedi/testcafe-examp) as well to comparison. [TestCafe](http://devexpress.github.io/testcafe/) natively applies [Async/Await](http://devexpress.github.io/testcafe/documentation/test-api/waiting-for-page-elements-to-appear.html) syntax (learn more at [JavaScript Info](https://javascript.info/async-await)). So you can easily compare the TestCafe and the Protractor way for the same application and goal.
 
 ## Summary
-After several days of experimenting and creating this project. I decided to abandone this experimenting project and continue with TestCafe. TestCafe more stable and reliable and convenient for mock testing. 
+After several days of experimenting and creating this project. I decided to abandon this experimenting project and continue with TestCafe. TestCafe more stable and reliable and convenient for mock testing. 
 
 So after 3 years of test automation with Protractor, I had to say Good Bye! I hope Protractor - Jasmine are going to be as stable as TestCafe with Async/Await; unfortunatelly right now I cannot use for Async/Await testing for Cloudbreak GUI.
 
